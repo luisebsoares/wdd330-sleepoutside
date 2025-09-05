@@ -4,33 +4,15 @@ import ProductData from "./ProductData.mjs";
 const dataSource = new ProductData("tents");
 
 function addProductToCart(product) {
-  const raw = getLocalStorage("so-cart");
-  const cartItems = Array.isArray(raw) ? raw : [];   // normalize
-  if (!Array.isArray(raw)) {
-    // clean up any old bad shape
-    setLocalStorage("so-cart", cartItems);
-  }
+  const cartItems = getLocalStorage("so-cart") || []; // get cart array of items from local storage if null set to empty array
   cartItems.push(product);
   setLocalStorage("so-cart", cartItems);
 }
+
 // add to cart button event handler
 async function addToCartHandler(e) {
-  const id = e.target?.dataset?.id;
-  if (!id) return; // no id on the button
-  const product = await dataSource.findProductById(id);
-  if (!product) {
-    console.error("Product not found for id:", id);
-    return;
-  }
+  const product = await dataSource.findProductById(e.target.dataset.id);
   addProductToCart(product);
-}
-
-// ensure the button exists before adding listener
-const btn = document.getElementById("addToCart");
-if (btn) {
-  btn.addEventListener("click", addToCartHandler);
-} else {
-  console.warn("#addToCart button not found in DOM");
 }
 
 // add listener to Add to Cart button
