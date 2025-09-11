@@ -2,8 +2,13 @@ export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
 
-export function getLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
+export function getLocalStorage(key, fallback = null) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return JSON.parse(localStorage.getItem(key));
+  }
 }
 
 export function setLocalStorage(key, data) {
