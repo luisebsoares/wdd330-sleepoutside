@@ -4,9 +4,9 @@ function producrCardTemplate(product) {
     return `<li class="product-card">
         <a href="product_pages/?products=${product.Id}">
         <img src="${product.image}" alt="${product.Name}" />
-        <h2>${product.Brand}</h2>
+        <h2>${product.Brand.Name}</h2>
         <h3>${product.Name}</h3>
-        <p class="product-card__price">$${product.Price}</p>
+        <p class="product-card__price">$${product.FinalPrice}</p>
         </a>
     </li>`;
 }
