@@ -1,4 +1,6 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
   const stored = getLocalStorage("so-cart");
@@ -11,20 +13,37 @@ function renderCartContents() {
   }
 
   if (cartItems.length === 0) {
-    parent.innerHTML = ""; // or show an empty-cart message if you want
+    parent.innerHTML = "";
+    const emptyMsg = document.querySelector(".cart-empty");
+    if (emptyMsg) emptyMsg.style.display = "block";
+    const total = document.querySelector(".cart-total");
+    if (total) total.textContent = "$0.00";
     return;
   }
 
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  parent.innerHTML = htmlItems.join("");
+
+  const totalEl = document.querySelector(".cart-total");
+  if (totalEl) {
+    const total = cartItems.reduce((sum, p) => {
+      const raw = p?.FinalPrice ?? p?.price ?? 0;
+      const n = Number.isFinite(Number(raw)) ? Number(raw) : 0;
+      return sum + n;
+    }, 0);
+    totalEl.textContent = `$${total.toFixed(2)}`;
+  }
+
+  const emptyMsg = document.querySelector(".cart-empty");
+  if (emptyMsg) emptyMsg.style.display = "none";
 }
 
 function cartItemTemplate(item) {
-  // Soft guards in case some fields are missing
-  const img = item.Image ?? item.image ?? "";
-  const name = item.Name ?? item.name ?? "Item";
-  const color = item.Colors?.[0]?.ColorName ?? "";
-  const price = item.FinalPrice ?? item.price ?? 0;
+  const img = item?.Image ?? item?.image ?? "";
+  const name = item?.Name ?? item?.name ?? "Item";
+  const color = item?.Colors?.[0]?.ColorName ?? item?.ColorName ?? item?.color ?? "";
+  const rawPrice = item?.FinalPrice ?? item?.price ?? 0;
+  const price = Number.isFinite(Number(rawPrice)) ? Number(rawPrice).toFixed(2) : "0.00";
 
   return `
 <li class="cart-card divider">
