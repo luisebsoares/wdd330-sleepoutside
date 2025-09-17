@@ -1,20 +1,12 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-
-export function getLocalStorage(key, fallback = null) {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
-  } catch {
-    return JSON.parse(localStorage.getItem(key));
-  }
+export function getLocalStorage(key) {
+  return JSON.parse(localStorage.getItem(key));
 }
-
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-
 export function setClick(selector, callback) {
   qs(selector).addEventListener("touchend", (event) => {
     event.preventDefault();
@@ -32,7 +24,6 @@ export function getParam(param) {
 
 export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
   const htmlStrings = list.map(template);
-
   if (clear) {
     parentElement.innerHTML = "";
   }
@@ -46,7 +37,7 @@ export function renderWithTemplate(template, parentElement, data, callback) {
   }
 }
 
-export async function loadTemplate(path) {
+async function loadTemplate(path) {
   const res = await fetch(path);
   const template = await res.text();
   return template;
@@ -62,4 +53,3 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
 }
-
