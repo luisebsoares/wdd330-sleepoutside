@@ -136,6 +136,62 @@ button {
   fill: gray;
 }
 
+.hide {
+  display: none;
+}
+
+/* Cart page–only styles */
+.cart-page .cart-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-page .qty-btn {
+  background: #004643;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.cart-page .qty-btn:hover {
+  background: #00695c;
+}
+
+.cart-page .qty-input {
+  width: 56px;
+  text-align: center;
+  padding: 0.35rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cart-page .remove-btn {
+  display: inline-block;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  width: 100%;
+  text-align: center;
+}
+
+.cart-page .remove-btn:hover {
+  background: #c9302c;
+}
+
 /* End cart icon styles */
 
 .mission {
