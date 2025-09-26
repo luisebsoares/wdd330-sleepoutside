@@ -4,12 +4,10 @@ export default class ExternalServices {
     }
 
     async convertToJson(res) {
-        // Parse the body first so we can surface detailed error info if any
         const jsonResponse = await res.json().catch(() => null);
         if (res.ok) {
             return jsonResponse;
         } else {
-            // Throw a custom object (per the assignment) with details in message
             throw {
                 name: "servicesError",
                 message: jsonResponse ?? { status: res.status, statusText: res.statusText },
