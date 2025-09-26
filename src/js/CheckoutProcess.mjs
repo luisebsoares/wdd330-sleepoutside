@@ -98,7 +98,6 @@ export default class CheckoutProcess {
             const response = await services.checkout(order);
             return response;
         } catch (err) {
-            // Bubble up for UI handling in checkout.js
             throw err;
         }
     }
