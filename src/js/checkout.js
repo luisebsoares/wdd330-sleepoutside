@@ -5,7 +5,6 @@ loadHeaderFooter();
 
 const cp = new CheckoutProcess("so-cart", ".order-summary");
 cp.init();
-
 cp.calculateOrderTotal();
 
 const zip = document.querySelector("#zip");
@@ -15,22 +14,32 @@ zip?.addEventListener("blur", () => cp.calculateOrderTotal());
 const submitBtn = document.querySelector("#checkoutSubmit");
 if (submitBtn) submitBtn.disabled = (cp.list?.length ?? 0) === 0;
 
-const form = document.forms.checkout;
-form?.addEventListener("submit", async (e) => {
+// Use a click handler, prevent default submit, validate, then attempt checkout
+document.querySelector("#checkoutSubmit")?.addEventListener("click", async (e) => {
     e.preventDefault();
-
-    if (!form.checkValidity()) {
-        form.reportValidity();
+    const form = document.forms[0];
+    if (!form) {
+        console.error("Checkout form not found");
         return;
     }
 
+    // Built-in HTML validation
+    const ok = form.checkValidity();
+    form.reportValidity();
+    if (!ok) return;
+
     try {
         const result = await cp.checkout(form);
+        // Success: clear cart and go to success page
         localStorage.removeItem("so-cart");
-        alert("Order placed! Confirmation ID: " + (result?.id ?? "OK"));
-        window.location.href = "/";
+        window.location.href = "/checkout/success.html";
     } catch (err) {
-        console.error(err);
-        alert("Unable to place order. Please verify your info and try again.");
+        console.error("Checkout error:", err);
+        // Prefer server-provided message if available
+        const msg =
+            typeof err?.message === "string"
+                ? err.message
+                : err?.message?.message || "Unable to place order. Please verify your info and try again.";
+        alert(msg);
     }
 });

@@ -94,7 +94,12 @@ export default class CheckoutProcess {
         order.shipping = Number(this.shipping.toFixed(2));
         order.items = packageItems(this.list);
 
-        const response = await services.checkout(order);
-        return response;
+        try {
+            const response = await services.checkout(order);
+            return response;
+        } catch (err) {
+            // Bubble up for UI handling in checkout.js
+            throw err;
+        }
     }
 }

@@ -12,15 +12,17 @@
   <header class="divider" id="main-header"></header>
 
   <main class="divider checkout">
-    <h2>Review & Place your Order</h2>
+    <h2>Review &amp; Place your Order</h2>
 
     <section class="checkout-form">
       <form name="checkout" novalidate>
         <fieldset>
           <legend>Customer</legend>
+
           <div class="checkout__name">
             <label for="fname">First Name</label>
             <input type="text" name="fname" id="fname" required autocomplete="given-name" />
+
             <label for="lname">Last Name</label>
             <input type="text" name="lname" id="lname" required autocomplete="family-name" />
           </div>
@@ -28,28 +30,34 @@
           <div class="checkout__address">
             <label for="street">Street Address</label>
             <input type="text" name="street" id="street" required autocomplete="address-line1" />
+
             <label for="city">City</label>
             <input type="text" name="city" id="city" required autocomplete="address-level2" />
+
             <label for="state">State</label>
             <input type="text" name="state" id="state" required pattern="^[A-Za-z]{2}$" title="2-letter code (e.g., UT)"
-              autocomplete="address-level1" />
+              autocomplete="address-level1" inputmode="text" />
+
             <label for="zip">Zip Code</label>
-            <input type="text" name="zip" id="zip" required pattern="^\\d{5}(-\\d{4})?$" title="5 digits or ZIP+4"
-              autocomplete="postal-code" />
+            <input type="text" name="zip" id="zip" required pattern="^\d{5}(-\d{4})?$" title="5 digits or ZIP+4"
+              autocomplete="postal-code" inputmode="numeric" />
           </div>
         </fieldset>
 
         <fieldset>
           <legend>Payment</legend>
+
           <div class="checkout__payment">
             <label for="cardNumber">Credit Card Number</label>
-            <input type="text" name="cardNumber" id="cardNumber" required inputmode="numeric" pattern="^\\d{13,19}$"
+            <input type="text" name="cardNumber" id="cardNumber" required inputmode="numeric" pattern="^\d{13,19}$"
               title="13–19 digits" autocomplete="cc-number" />
+
             <label for="expiration">Expiration (MM/YY)</label>
             <input type="text" name="expiration" id="expiration" required placeholder="MM/YY"
-              pattern="^(0[1-9]|1[0-2])\\/(\\d{2})$" title="Format MM/YY" autocomplete="cc-exp" />
+              pattern="^(0[1-9]|1[0-2])\/(\d{2})$" title="Format MM/YY" autocomplete="cc-exp" inputmode="numeric" />
+
             <label for="code">Security Code</label>
-            <input type="text" name="code" id="code" required inputmode="numeric" pattern="^\\d{3,4}$"
+            <input type="text" name="code" id="code" required inputmode="numeric" pattern="^\d{3,4}$"
               title="3 or 4 digits" autocomplete="cc-csc" />
           </div>
         </fieldset>
@@ -59,16 +67,22 @@
           <div class="order__summary">
             <div>Items</div>
             <div id="num-items">0</div>
+
             <div>Subtotal</div>
             <div id="cartTotal">$0.00</div>
+
             <div>Tax</div>
             <div id="tax">$0.00</div>
+
             <div>Shipping</div>
             <div id="shipping">$0.00</div>
+
             <div><strong>Total</strong></div>
             <div><strong id="orderTotal">$0.00</strong></div>
           </div>
         </fieldset>
+
+        <div id="checkoutMessage" class="notice" aria-live="polite" hidden></div>
 
         <button type="submit" id="checkoutSubmit" class="checkout-btn">Checkout</button>
       </form>

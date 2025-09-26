@@ -3,6 +3,20 @@ export default class ExternalServices {
         this.baseURL = baseURL;
     }
 
+    async convertToJson(res) {
+        // Parse the body first so we can surface detailed error info if any
+        const jsonResponse = await res.json().catch(() => null);
+        if (res.ok) {
+            return jsonResponse;
+        } else {
+            // Throw a custom object (per the assignment) with details in message
+            throw {
+                name: "servicesError",
+                message: jsonResponse ?? { status: res.status, statusText: res.statusText },
+            };
+        }
+    }
+
     async checkout(payload) {
         const url = `${this.baseURL}/checkout`;
         const options = {
@@ -11,10 +25,6 @@ export default class ExternalServices {
             body: JSON.stringify(payload),
         };
         const res = await fetch(url, options);
-        if (!res.ok) {
-            const txt = await res.text().catch(() => "");
-            throw new Error(`Checkout failed: ${res.status} ${txt}`);
-        }
-        return res.json();
+        return this.convertToJson(res);
     }
 }
