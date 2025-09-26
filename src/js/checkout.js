@@ -30,6 +30,7 @@ document.querySelector("#checkoutSubmit")?.addEventListener("click", async (e) =
         const result = await cp.checkout(form);
         localStorage.removeItem("so-cart");
         window.location.assign("success.html");
+        
     } catch (err) {
         console.error("Checkout error:", err);
         const msg =
